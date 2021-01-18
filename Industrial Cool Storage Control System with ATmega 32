@@ -1,0 +1,608 @@
+/*******************************************************
+This program was created by the CodeWizardAVR V3.42 
+Automatic Program Generator
+© Copyright 1998-2020 Pavel Haiduc, HP InfoTech S.R.L.
+http://www.hpinfotech.ro
+
+Project : Penggunaan ATmega 32 Pada Sistem Kendali Industrial Cool Storage 
+Version : 
+Date    : 15/01/2021
+Author  : Rona Aulia Wangsa Sea (1187070073)
+Company : Teknik Elektro UIN Sunan Gunung Djati Bandung
+Comments: 
+
+
+Chip type               : ATmega32
+Program type            : Application
+AVR Core Clock frequency: 16,000000 MHz
+Memory model            : Small
+External RAM size       : 0
+Data Stack size         : 512
+*******************************************************/
+
+#include <mega32.h>
+#include <delay.h>
+#define pushA PINB.0
+#define pushA2 PINB.1
+#define pushB PINB.2
+#define pushB2 PINB.3
+#define pushC PINB.4
+#define pushC2 PINB.5
+#define fanA PORTC.0
+#define fanA2 PORTC.1
+#define fanB PORTC.2
+#define fanB2 PORTC.3
+#define fanC PORTC.4
+#define fanC2 PORTC.5
+#define ledA PORTD.0
+#define ledA2 PORTD.1
+#define ledB PORTD.2
+#define ledB2 PORTD.3
+#define ledC PORTD.4
+#define ledC2 PORTD.5
+#define ledA3 PORTC.6
+#define ledB3 PORTD.6
+#define ledC3 PORTD.7
+#define downA PINA.0
+#define downB PINA.1
+#define downC PINA.2
+#define ON 1
+#define OFF 0
+
+
+void main(void)
+{
+DDRA = 0x00;
+PORTA = 0x00;
+
+DDRB = 0x00;
+PORTB = 0x00;
+
+DDRC = 0xFF;
+DDRD = 0xFF;
+
+while (1)
+      {     
+      
+      if (pushA==1) //ruang A Frost
+         {
+          if ((fanB&&fanB2&&fanC&&fanC2)==0)   //fan B, B2, C, dan C2 mati
+                {
+                 fanA = ON;
+                 fanA2 = OFF; 
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+          
+             
+                } 
+           else if (fanB==ON)  //fan B nyala
+                 {
+                 fanA = ON;
+                 fanA2 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF; 
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+                
+                 }
+           else if (fanB2==ON)  //fan B2 nyala
+                 {
+                 fanA = ON;
+                 fanA2 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+                 ledB = OFF;
+                 ledB2 = ON;
+                 ledB3 = OFF;
+              
+                 }
+           else if (fanC==ON)  //fan C nyala
+                 {
+                 fanA = ON;
+                 fanA2 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+                 ledC = ON;  
+                 ledC2 = OFF;
+                 ledC3 = OFF; 
+             
+                 }
+           else if (fanC2==ON)  //fan C2 nyala
+                 {  
+                 fanA = ON;
+                 fanA2 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF; 
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+               
+                 }
+         }
+      else if (pushA2==1) //ruang A Defrost
+         {
+         if ((fanB&&fanB2&&fanC&&fanC2)==0)   //fan B, B2, C, dan C2 mati
+                {
+                 fanA = OFF;
+                 fanA2 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+              
+                }
+          else if (fanB==ON)  //fan B nyala
+                 {
+                 fanA = OFF;
+                 fanA2 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+              
+                 }
+           else if (fanB2==ON)  //fan B2 nyala
+                 {
+                 fanA = OFF;
+                 fanA2 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+                 ledB = OFF; 
+                 ledB2 = ON;
+                 ledB3 = OFF;
+             
+                 }
+           else if (fanC==ON)  //fan C nyala
+                 {
+                 fanA = OFF;
+                 fanA2 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+                 ledC = ON; 
+                 ledC2 = OFF;
+                 ledB3 = OFF; 
+               
+                 }
+           else if (fanC2==ON)  //fan C2 nyala
+                 {
+                 fanA = OFF;
+                 fanA2 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+          
+                 }
+         }
+      else if (downA==1) //ruang A idle
+         {
+         if ((fanB&&fanB2&&fanC&&fanC2)==0)   //fan B, B2, C, dan C2 mati
+                {
+                 fanA = OFF;
+                 fanA2 = OFF;
+                 ledA = OFF;
+                 ledA2 = OFF;
+                 ledA3 = ON;
+             
+                }
+          else if (fanB==ON)  //fan B nyala
+                 {
+                 fanA = OFF;
+                 fanA2 = OFF; 
+                 ledA3 = ON;
+                 ledA = OFF;
+                 ledA2 = OFF;
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+             
+                 }
+           else if (fanB2==ON)  //fan B2 nyala
+                 { 
+                 fanA = OFF;
+                 fanA2 = OFF;
+                 ledA = OFF;
+                 ledA2 = OFF;
+                 ledA3 = ON;
+                 ledB = OFF; 
+                 ledB2 = ON;
+                 ledB3 = OFF;
+             
+                 }
+           else if (fanC==ON)  //fan C nyala
+                 { 
+                 fanA = OFF;
+                 fanA2 = OFF;
+                 ledA = OFF;
+                 ledA2 = OFF;
+                 ledA3 = ON;
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledB3 = OFF; 
+             
+                 }
+           else if (fanC2==ON)  //fan C2 nyala
+                 {
+                 fanA = OFF;
+                 fanA2 = OFF;
+                 ledA3 = ON;
+                 ledA = OFF;
+                 ledA2 = OFF;
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+          
+                 }
+         }    
+      else if (pushB==1)  //ruang B Frost
+         {  
+          if ((fanA&&fanA2&&fanC&&fanC2)==0)   //fan A, A2, C, dan C2 mati
+                {
+                 fanB = ON;
+                 fanB2 = OFF;
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+            
+                }
+          else if (fanA==ON)  //fan A nyala
+                 {
+                 fanB = ON;
+                 fanB2 = OFF;
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+          
+                 }
+           else if (fanA2==ON)  //fan A2 nyala
+                 {
+                 fanB = ON;
+                 fanB2 = OFF;
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+                 ledA = OFF; 
+                 ledA2 = ON;
+                 ledA3 = OFF;
+              
+                 }
+           else if (fanC==ON)  //fan C nyala
+                 { 
+                 fanB = ON;
+                 fanB2 = OFF;
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledB3 = OFF; 
+               
+                 }
+           else if (fanC2==ON)  //fan C2 nyala
+                 {
+                 fanB = ON;
+                 fanB2 = OFF; 
+                 ledB = ON;
+                 ledB2 = OFF;
+                 ledB3 = OFF;
+                 ledC = OFF; 
+                 ledC2 = ON;
+                 ledC3 = OFF;
+              
+                 }
+         
+         }
+       else if (pushB2==1)  //ruang B Defrost
+         { 
+          if ((fanA&&fanA2&&fanC&&fanC2)==0)   //fan A, A2, C, dan C2 mati
+                {
+                 fanB = OFF;
+                 fanB2 = ON;
+                 ledB = OFF;
+                 ledB2 = ON;
+                 ledB3 = OFF;
+              
+                }
+          else if (fanA==ON)  //fan A nyala
+                 {
+                 fanB = OFF;
+                 fanB2 = ON;
+                 ledB = OFF;
+                 ledB2 = ON;
+                 ledB3 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+             
+                 }
+           else if (fanA2==ON)  //fan A2 nyala
+                 {
+                 fanB = OFF;
+                 fanB2 = ON;
+                 ledB = OFF;
+                 ledB2 = ON;
+                 ledB3 = OFF;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+             
+                 }
+           else if (fanC==ON)  //fan C nyala
+                 { 
+                 fanB = OFF;
+                 fanB2 = ON;
+                 ledB = OFF;
+                 ledB2 = ON;
+                 ledB3 = OFF;
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledB3 = OFF; 
+              
+                 }
+           else if (fanC2==ON)  //fan C2 nyala
+                 {
+                 fanB = OFF;
+                 fanB2 = ON;
+                 ledB = OFF; 
+                 ledB2 = ON;
+                 ledB3 = OFF;
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+             
+                 }
+         }
+       else if (downB==1) //ruang B idle
+         {
+          if ((fanA&&fanA2&&fanC&&fanC2)==0)   //fan A, A2, C, dan C2 mati
+                {
+                 fanB = OFF;
+                 fanB2 = OFF;
+                 ledB = OFF;
+                 ledB2 = OFF;
+                 ledB3 = ON;
+              
+                }
+          else if (fanA==ON)  //fan A nyala
+                 {
+                 fanB = ON;
+                 fanB2 = OFF;
+                 ledB = OFF;
+                 ledB2 = OFF;
+                 ledB3 = ON;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+              
+                 }
+           else if (fanA2==ON)  //fan A2 nyala
+                 {
+                 fanB = OFF;
+                 fanB2 = OFF;
+                 ledB = OFF;
+                 ledB2 = OFF;
+                 ledB3 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+             
+                 }
+           else if (fanC==ON)  //fan C nyala
+                 {
+                 fanB = OFF;
+                 fanB2 = OFF;
+                 ledB = OFF;
+                 ledB2 = OFF; 
+                 ledB3 = ON;
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledB3 = OFF; 
+            
+                 }
+           else if (fanC2==ON)  //fan C2 nyala
+                 {
+                 fanB = OFF;
+                 fanB2 = OFF;
+                 ledB = OFF;
+                 ledB2 = OFF; 
+                 ledB3 = ON;
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+              
+                 }
+         }    
+      else if (pushC==1)  //ruang C Frost
+         {
+          if ((fanA&&fanA2&&fanC&&fanC2)==0)   //fan A, A2, B, dan B2 mati
+                {
+                 fanC = ON;
+                 fanC2 = OFF; 
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledC3 = OFF;
+             
+                }
+          else if (fanA==ON)  //fan A nyala
+                 {
+                 fanC = ON;
+                 fanC2 = OFF;
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledC3 = OFF;
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+           
+                 }
+           else if (fanA2==ON)  //fan A2 nyala
+                 {
+                 fanC = ON;
+                 fanC2 = OFF; 
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledC3 = OFF;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+           
+                 }
+           else if (fanB==ON)  //fan B nyala
+                 {
+                 fanC = ON;
+                 fanC2 = OFF;
+                 ledB = ON; 
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledC3 = OFF; 
+                 ledB2 = OFF;
+                 ledB3 = OFF; 
+             
+                 }
+           else if (fanB2==ON)  //fan B2 nyala
+                 {
+                 fanC = ON;
+                 fanC2 = OFF;
+                 ledB2 = ON; 
+                 ledC = ON;
+                 ledC2 = OFF;
+                 ledC3 = OFF;
+                 ledB = OFF;
+            
+                 }
+         }
+       else if (pushC2==1)  //ruang C Defrost
+         { 
+           if ((fanA&&fanA2&&fanC&&fanC2)==0)   //fan A, A2, B, dan B2 mati
+                {
+                 fanC = OFF;
+                 fanC2 = ON;
+                 ledC = OFF; 
+                 ledC2 = ON;
+                 ledC3 = OFF;
+             
+                }
+          else if (fanA==ON)  //fan A nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = ON; 
+                 ledA = ON;
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+             
+                 }
+           else if (fanA2==ON)  //fan A2 nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = ON;
+                 ledA2 = ON;
+                 ledC = OFF; 
+                 ledC2 = ON;
+                 ledC3 = OFF;
+                 ledA = OFF;
+           
+                 }
+           else if (fanB==ON)  //fan B nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = ON;
+                 ledB = ON;
+                 ledC = OFF; 
+                 ledC2 = ON;
+                 ledC3 = OFF; 
+                 ledB2 = OFF;
+                 ledB3 = OFF; 
+                 }
+           else if (fanB2==ON)  //fan B2 nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = ON;
+                 ledB2 = ON;
+                 ledC = OFF;
+                 ledC2 = ON;
+                 ledC3 = OFF;
+                 ledB = OFF;
+                 ledB3 = OFF;
+               
+                 }
+         }
+       else if (downC==1) //ruang C idle
+         {
+           if ((fanA&&fanA2&&fanC&&fanC2)==0)   //fan A, A2, B, dan B2 mati
+                {
+                 fanC = OFF;
+                 fanC2 = OFF;
+                 ledC = OFF;
+                 ledC2 = OFF;
+                 ledC3 = ON;
+              
+                }
+          else if (fanA==ON)  //fan A nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = OFF;
+                 ledC = OFF;
+                 ledC2 = OFF;
+                 ledC3 = ON; 
+                 ledA = ON;
+                 ledA2 = OFF;
+                 ledA3 = OFF;
+              
+                 }
+           else if (fanA2==ON)  //fan A2 nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = OFF;
+                 ledC = OFF;
+                 ledC2 = OFF;
+                 ledC3 = ON;
+                 ledA = OFF;
+                 ledA2 = ON;
+                 ledA3 = OFF;
+           
+                 }
+           else if (fanB==ON)  //fan B nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = OFF;
+                 ledC = OFF;
+                 ledC2 = OFF; 
+                 ledC3 = ON;
+                 ledB = ON;
+                 ledB2 = OFF;
+            
+                 }
+           else if (fanB2==ON)  //fan B2 nyala
+                 {
+                 fanC = OFF;
+                 fanC2 = OFF;
+                 ledC = OFF;
+                 ledC2 = OFF; 
+                 ledC3 = ON;
+                 ledB = OFF;
+                 ledB2 = ON;
+                 ledB3 = OFF;
+             
+                 }
+         }           
+      }
+
+}
+
